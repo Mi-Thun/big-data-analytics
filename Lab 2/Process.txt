@@ -1,3 +1,10 @@
+Open Eclipse IDE
+Copy 'training' project and paste it on same place by name it "WordCount"
+Expand WordCount --> src --> (default package)
+
+Remane 4 og them 3 are WordCount.java, MapForWordCount.java, ReducerForWordCount.java
+Replace the code that I provide bellow 😁
+
 =====================================================================
 WordCount.java
 =====================================================================
@@ -45,7 +52,7 @@ public class WordCount {
 
 
 ==============================================================================
-MapForWordCount 
+MapForWordCount.java
 ==============================================================================
 import java.io.IOException;
 
@@ -72,7 +79,7 @@ public class MapForWordCount extends Mapper<LongWritable, Text, Text, IntWritabl
 
 
 =====================================================================================
-ReducerForWordCount 
+ReducerForWordCount.java
 =====================================================================================
 import java.io.IOException;
 
@@ -96,32 +103,35 @@ public class ReducerForWordCount extends Reducer<Text, IntWritable, Text, IntWri
 }
 
 
+==============
+Right click on 'WordCount' project --> export --> java --> select jar --> Next --> give a jar file name as "WordCount" --> Next --> Next --> Finish
+Avoid if any error message occur.
 
-
-Right click on project main directory and right click it, then select export , java, jar, create a new k
-jar as WordCount and than next next finish. 
 
 
 =====================================================================================
 FireFox Browser
 =====================================================================================
 
-http://quickstart.cloudera:8888/accounts/login/?next=/
+go to http://quickstart.cloudera:8888/accounts/login/?next=/
 login by using
 User name: cloudera
 Password: cloudera
 
-
-Go to file browser 
-cretate new directory as wordcount and go that directory create new file as file1.txt
-go to that file and click on edit file option and add some text as comma seperated. Than save it
-
+Go to file browser that you see upper right side of the browser 😅
+cretate new directory as wordcount ==> go that directory create new file as file1.txt
+go to that file1.txt ==> click on 'edit file' option and add some text as comma seperated. Than save it
 
 
 =====================================================================================
 CMD
 =====================================================================================
+open CMD and write bellow command
 hadoop jar WordCount.jar WordCount  /user/cloudera/wordcount/file1.txt  wordcountout
+
+😪
+to see output go to firefox where you create a folder and add file1.txt 
+Here you also see another folder name as "wordcountout" In this folder you will find the output.
 
 
 
