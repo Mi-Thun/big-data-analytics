@@ -129,6 +129,12 @@ CMD
 open CMD and write bellow command
 hadoop jar WordCount.jar WordCount  /user/cloudera/wordcount/file1.txt  wordcountout
 
+explain ==>
+1st is jar file that is in my case is "WordCount.jar"
+2nd "WordCount" is Project name 
+"/user/cloudera/wordcount/file1.txt" that is input location
+"wordcountout" output location or folder name
+
 😪
 to see output go to firefox where you create a folder and add file1.txt 
 Here you also see another folder name as "wordcountout" In this folder you will find the output.
