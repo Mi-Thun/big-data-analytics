@@ -1,0 +1,137 @@
+=====================================================================
+WordCount.java
+=====================================================================
+import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+
+public class WordCount {
+
+  public static void main(String[] args) throws Exception {
+
+    if (args.length != 2) {
+      System.out.printf("Usage: WordCount <input dir> <output dir>\n");
+      System.exit(-1);
+    }
+
+    Configuration config = new Configuration();
+    Path input = new Path(args[0]);
+    Path output = new Path(args[1]);
+ 
+    @SuppressWarnings("deprecation")
+    Job job = new Job();
+   
+
+    job.setJarByClass(WordCount.class);
+   
+    job.setJarByClass(WordCount.class);
+    job.setMapperClass(MapForWordCount.class);
+    job.setReducerClass(ReducerForWordCount.class);
+    job.setOutputKeyClass(Text.class);
+    job.setOutputValueClass(IntWritable.class);
+    FileInputFormat.addInputPath(job, input);
+    FileOutputFormat.setOutputPath(job,output);
+
+
+    boolean success = job.waitForCompletion(true);
+    System.exit(success ? 0 : 1);
+  }
+}
+
+
+
+==============================================================================
+MapForWordCount 
+==============================================================================
+import java.io.IOException;
+
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Mapper;
+
+public class MapForWordCount extends Mapper<LongWritable, Text, Text, IntWritable> {
+
+  @Override
+  public void map(LongWritable key, Text value, Context context)
+      throws IOException, InterruptedException {
+	
+    String line = value.toString();
+    String[] words = line.split(",");
+    for (String word: words){
+    	Text outputKey = new Text(word.toUpperCase().trim());
+    	IntWritable outputValue = new IntWritable(1);
+    	context.write(outputKey, outputValue);
+    }
+  }
+}
+
+
+=====================================================================================
+ReducerForWordCount 
+=====================================================================================
+import java.io.IOException;
+
+import org.apache.hadoop.io.DoubleWritable;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Reducer;
+
+public class ReducerForWordCount extends Reducer<Text, IntWritable, Text, IntWritable> {
+
+  @Override
+  public void reduce(Text key, Iterable<IntWritable> values, Context context)
+      throws IOException, InterruptedException {
+
+    int sum = 0;
+    for(IntWritable value: values){
+    	sum += value.get();
+    }
+    context.write(key, new IntWritable(sum));
+  }
+}
+
+
+
+
+Right click on project main directory and right click it, then select export , java, jar, create a new k
+jar as WordCount and than next next finish. 
+
+
+=====================================================================================
+FireFox Browser
+=====================================================================================
+
+http://quickstart.cloudera:8888/accounts/login/?next=/
+login by using
+User name: cloudera
+Password: cloudera
+
+
+Go to file browser 
+cretate new directory as wordcount and go that directory create new file as file1.txt
+go to that file and click on edit file option and add some text as comma seperated. Than save it
+
+
+
+=====================================================================================
+CMD
+=====================================================================================
+hadoop jar WordCount.jar WordCount  /user/cloudera/wordcount/file1.txt  wordcountout
+
+
+
+
+
+
+
+
+
+
+
+
+

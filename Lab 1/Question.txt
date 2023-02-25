@@ -1,0 +1,13 @@
+Write commands to do the following.
+
+1. Find the Air craft, country flying mission and target country for those missions in which time on target was less than 1000.
+2. Find the target country and the number of times they have been attacked. Show the result in descending order.
+3. Find the target country which had been attacked most.
+4. Find the country flying mission which attacked most.
+5. Find the take off location and how many times they had used.
+6. Find the number of fighter jets from Aircraft_Glossary.
+7. Find the number of different types air craft for each air craft type.
+8. Find the air craft name which had used most in attacks.
+
+Write the commands in the text file and then submit.
+File Name: L1_<your-student-id>.txt

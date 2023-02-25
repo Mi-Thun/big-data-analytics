@@ -1,0 +1,153 @@
+	
+	Mohsenul Kabir Mithun
+	ID# 2019-3-60-046
+-------------------------------------------------------------------------------------
+1. Find the Air craft, country flying mission and target country for those missions 
+in which time on target was less than 1000.
+
+Bombing_Operations.createOrReplaceTempView('bombing_operation')
+
+query = """
+          SELECT AirCraft, ContryFlyingMission, TargetCountry
+          FROM bombing_operation
+          WHERE TimeOnTarget < 1000
+        """
+
+result = spark.sql(query)
+result.show()
+
+-------------------------------------------------------------------------------------
+2. Find the target country and the number of times they have been attacked. Show the 
+result in descending order.
+
+Bombing_Operations.createOrReplaceTempView('bombing_operation')
+
+query = """
+          SELECT TargetCountry, COUNT(TargetCountry) AS Attack
+          FROM bombing_operation
+          GROUP BY TargetCountry 
+          ORDER BY COUNT(TargetCountry) DESC
+       """
+
+result = spark.sql(query)
+result.show()
+
+-------------------------------------------------------------------------------------
+3. Find the target country which had been attacked most.
+Bombing_Operations.createOrReplaceTempView('bombing_operation')
+
+query1 = """
+          SELECT TargetCountry, COUNT(TargetCountry) AS NoOfAttack
+          FROM bombing_operation
+          GROUP BY TargetCountry 
+          ORDER BY COUNT(TargetCountry) DESC
+       """
+
+result = spark.sql(query1)
+result.createOrReplaceTempView('TempResult')
+
+query2 = """
+          SELECT *
+          FROM TempResult
+          WHERE NoOfAttack = (SELECT MAX(NoOfAttack) 
+                              FROM TempResult)
+       """
+
+result = spark.sql(query2)
+result.show()
+
+-------------------------------------------------------------------------------------
+4. Find the country flying mission which attacked most.
+Bombing_Operations.createOrReplaceTempView('bombing_operation')
+
+query1 = """
+          SELECT ContryFlyingMission, COUNT(ContryFlyingMission) AS NoOfFlyingMission
+          FROM bombing_operation
+          GROUP BY ContryFlyingMission 
+          ORDER BY COUNT(ContryFlyingMission) DESC
+       """
+
+result = spark.sql(query1)
+result.createOrReplaceTempView('TempResult')
+
+query2 = """
+          SELECT *
+          FROM TempResult
+          WHERE NoOfFlyingMission = (SELECT MAX(NoOfFlyingMission) 
+                                     FROM TempResult)
+       """
+
+result = spark.sql(query2)
+result.show()
+
+-------------------------------------------------------------------------------------
+5. Find the take off location and how many times they had used.
+Bombing_Operations.createOrReplaceTempView('bombing_operation')
+
+query = """
+          SELECT TakeoffLocation, COUNT(TakeoffLocation) AS NoOfTakeoffLocation
+          FROM bombing_operation
+          GROUP BY TakeoffLocation 
+       """
+
+result = spark.sql(query)
+result.show()
+
+-------------------------------------------------------------------------------------
+6. Find the number of fighter jets from Aircraft_Glossary.
+Aircraft_Glossary.createOrReplaceTempView('aircraft_glossary')
+
+query = """
+            SELECT COUNT(AirCraftType) as TotalNoOfFighterJet
+            FROM aircraft_glossary
+            WHERE AirCraftType == 'Fighter Jet'
+          """
+
+result = spark.sql(query)
+result.show()
+
+-------------------------------------------------------------------------------------
+7. Find the number of different types air craft for each air craft type.
+Aircraft_Glossary.createOrReplaceTempView('aircraft_glossary')
+
+query = """
+            SELECT AirCraftType, COUNT(AirCraftType) AS NoOfAirCraftType
+            FROM aircraft_glossary
+            GROUP BY AirCraftType
+          """
+
+result = spark.sql(query)
+result.show()
+
+-------------------------------------------------------------------------------------
+8. Find the air craft name which had used most in attacks.			    
+Aircraft_Glossary.createOrReplaceTempView('aircraft_glossary')			    
+Bombing_Operations.createOrReplaceTempView('bombing_operation')			    
+			 							    
+query1= """			   						    
+        SELECT AirCraftName, TargetCountry					    
+        FROM aircraft_glossary A, bombing_operation B
+        WHERE A.AirCraft = B.AirCraft
+        """
+result = spark.sql(query1)
+
+result.createOrReplaceTempView("TempResult1")
+
+query2 = """
+            SELECT AirCraftName, COUNT(AirCraftName) as NoOfAirCraftName
+            FROM TempResult1
+            GROUP BY AirCraftName
+          """
+result = spark.sql(query2)
+
+result.createOrReplaceTempView("TempResult2")
+
+query3 = """
+            SELECT *
+            FROM TempResult2
+            WHERE NoOfAirCraftName == (SELECT MAX(NoOfAirCraftName) 
+                                      FROM TempResult2 )
+          """
+result = spark.sql(query3)
+result.show()
+-------------------------------------------------------------------------------------
