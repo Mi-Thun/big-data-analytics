@@ -1,9 +1,9 @@
-Open Eclipse IDE
-Copy 'training' project and paste it on same place by name it "WordCount"
-Expand WordCount --> src --> (default package)
+1. Open Eclipse IDE
+2. Copy 'training' project and paste it on same place by name it "WordCount"
+3. Expand WordCount --> src --> (default package)
 
-Remane 4 og them 3 are WordCount.java, MapForWordCount.java, ReducerForWordCount.java
-Replace the code that I provide bellow 😁
+4. Rename 4 of 3 java file are "WordCount.java", "MapForWordCount.java", "ReducerForWordCount.java"
+Now replace the code that I provide bellow 😁
 
 =====================================================================
 WordCount.java
@@ -104,30 +104,29 @@ public class ReducerForWordCount extends Reducer<Text, IntWritable, Text, IntWri
 
 
 ==============
-Right click on 'WordCount' project --> export --> java --> select jar --> Next --> give a jar file name as "WordCount" --> Next --> Next --> Finish
-Avoid if any error message occur.
-
+5. Right click on 'WordCount' project --> export --> java --> select jar --> Next --> give a jar file name as "WordCount" --> Next --> Next --> Finish
+6. Avoid if any error message occur.
 
 
 =====================================================================================
 FireFox Browser
 =====================================================================================
 
-go to http://quickstart.cloudera:8888/accounts/login/?next=/
-login by using
-User name: cloudera
-Password: cloudera
+7. Go to http://quickstart.cloudera:8888/accounts/login/?next=/
+8. Login by using
+	User name: cloudera
+	Password: cloudera
 
-Go to file browser that you see upper right side of the browser 😅
-cretate new directory as wordcount ==> go that directory create new file as file1.txt
-go to that file1.txt ==> click on 'edit file' option and add some text as comma seperated. Than save it
+9. Go to file browser that you see upper right side of the browser 😅
+10. Cretate new directory as wordcount ==> go that directory create new file as file1.txt
+11. Go to that file1.txt ==> click on 'edit file' option and add some text as comma seperated. Than save it
 
 
 =====================================================================================
 CMD
 =====================================================================================
-open CMD and write bellow command
-hadoop jar WordCount.jar WordCount  /user/cloudera/wordcount/file1.txt  wordcountout
+12. open CMD and write bellow command
+	hadoop jar WordCount.jar WordCount  /user/cloudera/wordcount/file1.txt  wordcountout
 
 explain ==>
 1st is jar file that is in my case is "WordCount.jar"
@@ -135,8 +134,8 @@ explain ==>
 "/user/cloudera/wordcount/file1.txt" that is input location
 "wordcountout" output location or folder name
 
-😪
-to see output go to firefox where you create a folder and add file1.txt 
+😪😪
+13. To see output go to firefox where you create a folder and add file1.txt 
 Here you also see another folder name as "wordcountout" In this folder you will find the output.
 
 
