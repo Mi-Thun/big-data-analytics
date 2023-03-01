@@ -129,17 +129,20 @@ CMD
 	hadoop jar WordCount.jar WordCount  /user/cloudera/wordcount/file1.txt  wordcountout
 
 explain ==>
-1st is jar file that is in my case is "WordCount.jar"
+1st is jar file that is in my case is "WordCount.jar" if you get any error then provide complete location of that jar file in may case the cmd will be "jar /home/cloudera/workspace/a.jar WordCount  /user/cloudera/wordcount/ output"
 2nd "WordCount" is Project name 
-"/user/cloudera/wordcount/file1.txt" that is input location
+"/user/cloudera/wordcount/file1.txt" that is input location. if you have multiple txt file then provide just folder name like that "/user/cloudera/wordcount/"
 "wordcountout" output location or folder name
+More generic way to explain: 🤣
+"hadoop jar <jar file> <main class> <input path> <output path>"
 
 😪😪
 13. To see output go to firefox where you create a folder and add file1.txt 
 Here you also see another folder name as "wordcountout" In this folder you will find the output.
-
-
-
+Or 
+oprn CMD and run that command
+----------------------------------------
+hdfs dfs -cat /wordcountout/part-r-00000
 
 
 
