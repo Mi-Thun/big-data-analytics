@@ -104,9 +104,9 @@ public class ReducerForWordCount extends Reducer<Text, IntWritable, Text, IntWri
 
 
 ==============
-5. Right click on 'WordCount' project --> export --> java --> select jar --> Next --> give a jar file name as "WordCount" --> Next --> Next --> Finish
+5. Right click on 'WordCount' project --> export --> java --> select jar --> Next --> give a jar file
+   name as "WordCount" --> Next --> Next --> Finish
 6. Avoid if any error message occur.
-
 
 =====================================================================================
 FireFox Browser
@@ -129,10 +129,18 @@ CMD
 	hadoop jar WordCount.jar WordCount  /user/cloudera/wordcount/file1.txt  wordcountout
 
 explain ==>
-1st is jar file that is in my case is "WordCount.jar" if you get any error then provide complete location of that jar file in may case the cmd will be "jar /home/cloudera/workspace/a.jar WordCount  /user/cloudera/wordcount/ output"
-2nd "WordCount" is Project name 
-"/user/cloudera/wordcount/file1.txt" that is input location. if you have multiple txt file then provide just folder name like that "/user/cloudera/wordcount/"
-"wordcountout" output location or folder name
+(i) 1st is jar file, that is in my case is "WordCount.jar" if you get any error then provide complete location of that
+jar file in my case the cmd will be "jar /home/cloudera/workspace/WordCount WordCount  /user/cloudera/wordcount/ output"
+''''
+Open computer from desktop home screen --> filesystem --> home --> cloudera --> workspace (here you will find the created jar file).
+if you move or copy the jar file in to one step back folder which is cloudera then you don't need to provide complete location.
+you can also choose a location of jar file while creating a new jar file...😅
+''''
+(ii) 2nd "WordCount" is Project name
+(iii) "/user/cloudera/wordcount/file1.txt" that is input location. if you have multiple txt file then provide just folder 
+name like that "/user/cloudera/wordcount/"
+(iv) "wordcountout" output location or folder name
+
 More generic way to explain: 🤣
 "hadoop jar <jar file> <main class> <input path> <output path>"
 
@@ -142,14 +150,12 @@ Here you also see another folder name as "wordcountout" In this folder you will 
 Or 
 oprn CMD and run that command
 ----------------------------------------
-hdfs dfs -cat /wordcountout/part-r-00000
+hdfs dfs -cat /user/cloudera/wordcountout/part-r-00000
 
+"/user/cloudera/wordcountout/part-r-00000" location of my output.
 
-
-
-
-
-
+To see all file list cmd:
+	hdfs dfs -ls /user/cloudera
 
 
 
