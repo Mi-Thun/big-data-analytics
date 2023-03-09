@@ -1,0 +1,64 @@
+Write a MapReduce program that generates sum of numbers given in a number of CSV (comma separated values)
+files.
+
+The code is already given below. Your job is to put the code in the right place and execute the program.
+
+You must submit a brief report mentioning your student ID and screenshots of executing this program.
+
+
+Bonus: If you are able to execute this program, then write a program of your own that generates sum of Odd 
+and sum of even numbers from the same csv files.
+
+
+import java.io.IOException;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.DoubleWritable;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.mapreduce.Reducer;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+
+public class SumCalculator {
+
+// Mapper class to extract numbers
+public static class SumMapper extends Mapper<LongWritable, Text, Text, DoubleWritable> {
+
+public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
+String[] fields = value.toString().split(",");
+for (String field : fields) {
+double num = Double.parseDouble(field);
+context.write(new Text("sum"), new DoubleWritable(num));
+}
+}
+}
+
+// Reducer class to calculate sum of all numbers
+public static class SumReducer extends Reducer<Text, DoubleWritable, Text, DoubleWritable> {
+
+public void reduce(Text key, Iterable<DoubleWritable> values, Context context)
+throws IOException, InterruptedException {
+double sum = 0;
+for (DoubleWritable val : values) {
+sum += val.get();
+}
+context.write(new Text("Total sum"), new DoubleWritable(sum));
+}
+}
+
+// Main method to run the job
+public static void main(String[] args) throws Exception {
+Job job = Job.getInstance();
+job.setJarByClass(SumCalculator.class);
+job.setJobName("Calculate Sum");
+FileInputFormat.addInputPath(job, new Path(args[0]));
+FileOutputFormat.setOutputPath(job, new Path(args[1]));
+job.setMapperClass(SumMapper.class);
+job.setReducerClass(SumReducer.class);
+job.setOutputKeyClass(Text.class);
+job.setOutputValueClass(DoubleWritable.class);
+System.exit(job.waitForCompletion(true) ? 0 : 1);
+}
+}
