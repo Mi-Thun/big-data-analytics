@@ -1,0 +1,76 @@
+Start working on this immediately.
+Consider the following dataset.
+
+Name,Department,Position,Salary,Start_Date
+John Smith,Engineering,Software Developer,75000,1/15/2019
+Emily Johnson,Marketing,Marketing Coordinator,55000,3/12/2018
+Michael Lee,Finance,Financial Analyst,65000,7/1/2020
+Sarah Chen,Human Resources,HR Manager,85000,9/5/2017
+David Kim,Operations,Operations Manager,95000,4/2/2016
+Jasmine Wong,Sales,Sales Representative,60000,2/21/2021
+Matthew Johnson,Engineering,Engineering Manager,100000,11/10/2015
+Ava Martinez,Marketing,Marketing Manager,90000,6/23/2014
+Jessica Park,Finance,Financial Controller,110000,2/15/2013
+Richard Lee,Operations,Operations Coordinator,55000,1/1/2020
+
+
+The dataset is also attached as sample_dataset_1.csv file.
+
+Run the following MapReduce program that finds the employee name working at the 'Sales' department.
+
+import java.io.IOException;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.mapreduce.Reducer;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+
+public class SalesEmployeeFinder {
+
+  // Mapper class to extract department and employee name
+  public static class SalesEmployeeMapper extends Mapper<LongWritable, Text, Text, Text> {
+
+    public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
+      String[] fields = value.toString().split(",");
+      String department = fields[1];
+      String employeeName = fields[0];
+      if (department.equals("Sales")) {
+        context.write(new Text(department), new Text(employeeName));
+      }
+    }
+  }
+
+  // Reducer class to collect all employee names who work in Sales department
+  public static class SalesEmployeeReducer extends Reducer<Text, Text, Text, Text> {
+
+    public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
+      StringBuilder sb = new StringBuilder();
+      for (Text val : values) {
+        sb.append(val.toString()).append(",");
+      }
+      context.write(key, new Text(sb.toString()));
+    }
+  }
+
+  // Main method to run the job
+  public static void main(String[] args) throws Exception {
+    Job job = Job.getInstance();
+    job.setJarByClass(SalesEmployeeFinder.class);
+    job.setJobName("Find Sales Employees");
+    FileInputFormat.addInputPath(job, new Path(args[0]));
+    FileOutputFormat.setOutputPath(job, new Path(args[1]));
+    job.setMapperClass(SalesEmployeeMapper.class);
+    job.setReducerClass(SalesEmployeeReducer.class);
+    job.setOutputKeyClass(Text.class);
+    job.setOutputValueClass(Text.class);
+    System.exit(job.waitForCompletion(true) ? 0 : 1);
+  }
+}
+
+
+Understand the code. 
+Now write a MapReduce Program that finds employee name, department and position who gets salary in between 60000 and 90000 (bounds are inclusive). Once you have solved this, upload your code files and another doc file with the screenshot of your execution.
+Thanks.
